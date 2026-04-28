@@ -45,7 +45,7 @@ BACKEND_DEV_URL=http://127.0.0.1:8000
 
 ## Vercel 部署（前后端同一项目）
 
-根目录 `vercel.json` 中配置了 **rewrites**，将面向浏览器的 `/api/extract`、`/api/health` 转发到 Python Serverless 入口 **`/api/main/*`**（对应仓库中的 `api/main.py`）。构建时会执行 `npm install` 与 `pip install -r requirements.txt`。
+根目录 `vercel.json` 中配置了 **rewrites**，将面向浏览器的 `/api/extract`、`/api/health` 转发到 Python Serverless 入口 **`/api/main/*`**（对应仓库中的 `api/main.py`）。构建时前端执行 `npm install`，Python 依赖由 Vercel 根据 `requirements.txt` 自动安装。
 
 部署后无需设置 `NEXT_PUBLIC_API_URL` 即可使用同源 `/api/extract`。若前后端分属不同域名，再设置 `NEXT_PUBLIC_API_URL` 并在后端配置 `CORS_ORIGINS`（逗号分隔）。
 
