@@ -27,6 +27,7 @@ app.add_middleware(
 
 
 @app.post("/", response_model=ExtractResponse)
+@app.post("/api/extract", response_model=ExtractResponse)
 def extract(req: ExtractRequest) -> ExtractResponse:
     return extract_info(str(req.url))
 

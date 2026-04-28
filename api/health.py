@@ -8,6 +8,7 @@ app = FastAPI(title="yt-dlp-web Health", version="1.0.0")
 
 
 @app.get("/")
+@app.get("/api/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
 
