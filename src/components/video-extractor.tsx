@@ -71,16 +71,32 @@ export function VideoExtractor() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ url: trimmed }),
         });
-        const json = (await res.json()) as ExtractResponse & { detail?: unknown };
+        let json: (ExtractResponse & { detail?: unknown }) | null = null;
+        let rawText: string | null = null;
+        try {
+          json = (await res.json()) as ExtractResponse & { detail?: unknown };
+        } catch {
+          try {
+            rawText = await res.text();
+          } catch {
+            // ignore
+          }
+        }
+
         if (!res.ok) {
-          const detail = json.detail;
+          const detail = json?.detail;
           const msg =
             typeof detail === "string"
               ? detail
               : Array.isArray(detail)
                 ? detail.map((d: { msg?: string }) => d.msg).join("; ")
-                : res.statusText;
-          setErr(msg || "请求失败");
+                : rawText?.slice(0, 200) || res.statusText;
+          setErr(`请求失败（${res.status}）：${msg || "服务异常"}`);
+          return;
+        }
+
+        if (!json) {
+          setErr(`请求失败（${res.status}）：响应不是 JSON`);
           return;
         }
         setData(json);

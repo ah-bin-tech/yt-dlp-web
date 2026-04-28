@@ -2,15 +2,5 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "npm install",
-  "buildCommand": "npm run build",
-  "rewrites": [
-    {
-      "source": "/api/extract",
-      "destination": "/api/main/extract"
-    },
-    {
-      "source": "/api/health",
-      "destination": "/api/main/health"
-    }
-  ]
+  "buildCommand": "npm run build"
 }
